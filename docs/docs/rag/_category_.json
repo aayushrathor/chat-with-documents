@@ -1,0 +1,8 @@
+{
+  "label": "Retrieval Augmented Generation (RAG)",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "This document describes the implementation of Retrieval Augmented Generation (RAG) within our chatbot."
+  }
+}
