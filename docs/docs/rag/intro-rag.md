@@ -10,7 +10,11 @@ sidebar_position: 1
 
 RAG is a technique that enhances the capabilities of large language models (LLMs) by retrieving relevant information from external knowledge sources at runtime. This allows the chatbot to generate more accurate, reliable, and up-to-date responses, even for tasks requiring specific domain knowledge. In other words RAG can be defined as an AI framework for retrieving facts from an external knowledge base to ground large language models (LLMs) on the most accurate, up-to-date information and to give users insight into LLMs' generative process.
 
-![RAG Basic](./img/rag.png)
+<!-- ![RAG Basic](./img/rag.png) -->
+<center>
+    ![RAG History](./img/rag-history.png)
+    <p>Figure: The evolutionary trajectory of RAG unfolds across four distinctive phases, as illustrated. In its inception in 2017, aligned with the emergence of the Transformer architecture, the primary thrust was on assimilating additional knowledge through Pre-Training Models (PTM) to augment language models. This epoch witnessed RAG’s foundational efforts predominantly directed at optimizing pre-training methodologies</p>
+</center>
 
 ## RAG Architecture
 
