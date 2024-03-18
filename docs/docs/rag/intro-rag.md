@@ -22,7 +22,9 @@ Setting up a RAG system involves fine-tuning two main components: the retriever 
 
 **Document Database Preparation**: Initially, a vector database is established to house articles. Long articles are divided into manageable sections because language models have processing limits. These sections are converted into vectors, or numerical representations, and stored for fast retrieval.
 
-![RAG Architecture](./img/rag-architecture.png)
+<center>
+    ![RAG Architecture](./img/rag-architecture.png)
+</center>
 
 **Generalized representation of a simple RAG system.**
 
