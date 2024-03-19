@@ -1,32 +1,51 @@
-from langchain import hub
 from langchain.embeddings import GPT4AllEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.llms import Ollama
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 import chainlit as cl
+from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA, RetrievalQAWithSourcesChain
-
-
-QA_CHAIN_PROMPT = hub.pull("rlm/rag-prompt-mistral")
+from langchain.prompts import (
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate,
+    ChatPromptTemplate,
+)
 
 
 # load the LLM
 def load_llm():
-    llm = Ollama(
+    # llm = Ollama(
+    #     model="mistral",
+    #     verbose=True,
+    #     # base_url="https://periods-veterans-redeem-compression.trycloudflare.com",
+    #     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
+    # )
+    llm = ChatOpenAI(
         model="mistral",
-        verbose=True,
-        # base_url="https://periods-veterans-redeem-compression.trycloudflare.com",
+        api_key=None,
+        base_url="http://localhost:1234/v1",
+        temperature=0,
+        # streaming=True,
         callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
     )
     return llm
+
+
+general_system_template = r"""<s> [INST] You are an Intelligent AI Assistant. Your response should be clear and concise. [/INST] </s> [INST] Context: {context} [/INST]"""
+general_user_template = "Question: {question}"
+messages = [
+    SystemMessagePromptTemplate.from_template(general_system_template),
+    HumanMessagePromptTemplate.from_template(general_user_template),
+]
+QA_PROMPT = ChatPromptTemplate.from_messages(messages)
 
 
 def retrieval_qa_chain(llm, vectorstore):
     qa_chain = RetrievalQA.from_chain_type(
         llm,
         retriever=vectorstore.as_retriever(),
-        chain_type_kwargs={"prompt": QA_CHAIN_PROMPT},
+        chain_type_kwargs={"prompt": QA_PROMPT},
         return_source_documents=True,
     )
     return qa_chain

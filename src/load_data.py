@@ -15,9 +15,8 @@ DB_PATH = os.path.join(os.path.dirname(__file__), "vectorstores/db")
 def create_vector_db():
     loader = PyPDFDirectoryLoader(DATA_PATH)
     documents = loader.load()
-    print(f"documents: {documents}")
     print(f"Processed {len(documents)} pdf files")
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=50)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
     texts = text_splitter.split_documents(documents)
     vectorstore = Chroma.from_documents(
         documents=texts, embedding=GPT4AllEmbeddings(), persist_directory=DB_PATH
