@@ -30,7 +30,7 @@ def load_llm():
     #     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
     # )
     llm = ChatOpenAI(
-        model="mistral",
+        model="lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF",
         api_key=None,
         base_url="http://localhost:1234/v1",
         temperature=0.3,
@@ -147,8 +147,8 @@ async def on_chat_start():
     # Create a chain that uses the Chroma vector store
     chain = ConversationalRetrievalChain.from_llm(
         ChatOpenAI(
-            model="mistral",
-            api_key=None,
+            model="lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF",
+            api_key="chat-with-documents",  # type: ignore
             base_url="http://localhost:1234/v1",
             temperature=0.3,
             streaming=True,
@@ -173,7 +173,7 @@ async def on_chat_start():
 @cl.on_message
 async def main(message: cl.Message):
     chain = cl.user_session.get("chain")
-    cb = cl.AsyncLangchainCallbackHandler()
+    cb = cl.AsyncLangchainCallbackHandler(stream_final_answer=True)
 
     res = await chain.ainvoke(message.content, callbacks=[cb])  # type: ignore
     answer = res["answer"]
